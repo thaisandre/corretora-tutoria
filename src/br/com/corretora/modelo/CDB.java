@@ -29,5 +29,9 @@ public class CDB {
 	public Long getIntervalo() {
 		return dataIncial.until(LocalDate.now(), ChronoUnit.MONTHS);
 	}
+	
+	public Double getValorMinimo() {
+		return valorMinimo;
+	}
 
 }
