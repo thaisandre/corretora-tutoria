@@ -5,6 +5,9 @@ public class Usuario {
 	private Conta conta;
 
 	public Usuario(Conta conta) {
+		if(conta == null) {
+			throw new NullPointerException("conta não pode ser nula");
+		}
 		this.conta = conta;
 	}
 

@@ -2,9 +2,15 @@ package br.com.corretora.modelo;
 
 public class Conta {
 
-	private double saldo;
+	private Double saldo;
 
-	public Conta(double saldo) {
+	public Conta(Double saldo) {
+		if(saldo == null) {
+			throw new NullPointerException("Saldo não poser vazio");
+		}
+		if(saldo < 0.0) {
+			throw new IllegalArgumentException("Saldo não pode ser negativo");
+		}
 		this.saldo = saldo;
 	}
 
