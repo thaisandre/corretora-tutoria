@@ -18,6 +18,12 @@ public class CDB {
 		if (dataInicial.isBefore(LocalDate.now())) {
 			throw new IllegalArgumentException("data inválida - a data deve ser futura");
 		}
+		if(valor == null) {
+			throw new NullPointerException("o valor não pode ser nulo");
+		}
+		if(dataInicial == null) {
+			throw new NullPointerException("a data não pode ser nula");
+		}
 		this.valor = valor;
 		this.dataIncial = dataInicial;
 	}
