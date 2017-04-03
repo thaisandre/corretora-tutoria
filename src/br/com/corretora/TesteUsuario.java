@@ -1,6 +1,5 @@
 package br.com.corretora;
 
-import br.com.corretora.modelo.CDB;
 import br.com.corretora.modelo.Conta;
 import br.com.corretora.modelo.Usuario;
 
