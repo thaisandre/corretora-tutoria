@@ -25,6 +25,6 @@ public class Conta {
 	}
 
 	public void deposita(Double valor) {
-		saldo -= valor;
+		saldo += valor;
 	}
 }

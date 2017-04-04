@@ -6,23 +6,28 @@ import java.util.List;
 
 public class Usuario {
 	
+	private String nome;
 	private Conta conta;
 	private List<Investimento> investimentos = new ArrayList<Investimento>();
 
-	public Usuario(Conta conta) {
-		if(conta == null) {
+	public Usuario(String nome, Conta conta) {
+		if (conta == null) {
 			throw new NullPointerException("conta não pode ser nula");
 		}
+		if(nome == null) {
+			throw new NullPointerException("nome não pode ser nulo");
+		}
+		
+		this.nome = nome;
 		this.conta = conta;
 	}
-
-	public boolean resgata(Investimento investimento) {
-		if(investimento.getIntervalo() < 24) return false;
-		return true;
+	
+	public String getNome() {
+		return this.nome;
 	}
 
 	public List<Investimento> getInvestimentos() {
-		return investimentos ;
+		return investimentos;
 	}
 
 	public boolean investe(Investimento investimento) {
@@ -31,4 +36,18 @@ public class Usuario {
 		return true;
 	}
 
+	public boolean resgata(Investimento investimento) {
+		if (investimento.getIntervalo() > 24) {
+			conta.deposita(investimento.getTotalResgate());
+			System.out.println("valor do resgate de " + this.nome + ": " + investimento.getTotalResgate());
+			investimentos.remove(investimento);
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return this.nome;
+	}
 }
