@@ -1,6 +1,5 @@
 package br.com.corretora.modelo;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

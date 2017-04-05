@@ -10,7 +10,7 @@ import br.com.corretora.modelo.Usuario;
 
 public class Principal {
 
-	public static void main(String[] args) {
+	public static void main(String... args) {
 
 		// usuario 1
 		Conta conta = new Conta(10000.0);

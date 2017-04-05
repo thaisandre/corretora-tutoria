@@ -1,7 +1,8 @@
 package br.com.corretora.modelo;
 
-public class ImpostoDeRenda {
+public class ImpostoDeRenda implements Desconto {
 	
+	@Override
 	public Double getValor(Investimento investimento) {
 		if(investimento.getIntervalo() <= 12) {
 			return 0.25;
