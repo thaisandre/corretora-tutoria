@@ -57,27 +57,16 @@ public class Investimento {
 		return taxaDeJuros;
 	}
 
-	@Override
-	public String toString() {
-		return "[" + this.getTipo() + ", " + this.getValor() + ", " + this.getTaxaDeJuros() + ", "
-				+ this.getDataInicial().toString() + "]";
-	}
-
 	private Double getRentabilidadeMensal() {
 		return Math.pow(10, Math.log10(1 + (getTaxaDeJuros())) / 12) - 1;
 	}
 
 	private Double getRendimentoBruto() {
-		Double total = getValor();
-		for (int i = 1; i <= getIntervalo(); i++) {
-			total += total * getRentabilidadeMensal();
-		}
-		return total - getValor();
+		return getValor()*(Math.pow(1 + getRentabilidadeMensal(), getIntervalo())  - 1);
 	}
 
 	private Double getDesconto() {
-		return getTipo().calcula(this);
-
+		return getTipo().calcula(this)*getRendimentoBruto();
 	}
 
 	private Double getRendimentoLiquido() {
@@ -86,6 +75,12 @@ public class Investimento {
 
 	public Double getTotalResgate() {
 		return getValor() + getRendimentoLiquido();
+	}
+	
+	@Override
+	public String toString() {
+		return "[" + this.getTipo() + ", " + this.getValor() + ", " + this.getTaxaDeJuros() + ", "
+				+ this.getDataInicial().toString() + "]";
 	}
 
 }
