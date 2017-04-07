@@ -4,7 +4,8 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class Investimento {
-
+	
+	private Integer id;
 	private Double valor;
 	private LocalDate dataInicial;
 	private Double taxaDeJuros;
@@ -49,11 +50,11 @@ public class Investimento {
 		return tipo;
 	}
 
-	private LocalDate getDataInicial() {
+	public LocalDate getDataInicial() {
 		return dataInicial;
 	}
 
-	private Double getTaxaDeJuros() {
+	public Double getTaxaDeJuros() {
 		return taxaDeJuros;
 	}
 

@@ -2,6 +2,8 @@ package br.com.corretora;
 
 import java.time.LocalDate;
 
+import br.com.corretora.dao.ContaDao;
+import br.com.corretora.dao.UsuarioDao;
 import br.com.corretora.modelo.Conta;
 import br.com.corretora.modelo.Corretora;
 import br.com.corretora.modelo.Investimento;
@@ -11,10 +13,15 @@ import br.com.corretora.modelo.Usuario;
 public class Principal {
 
 	public static void main(String... args) {
-
+		
+		ContaDao contaDao = new ContaDao();
+		UsuarioDao usuarioDao = new UsuarioDao();
+		
+		
 		// usuario 1
 		Conta conta = new Conta(10000.0);
 		Usuario joao = new Usuario("joao", conta);
+		
 		LocalDate dataInicial = LocalDate.of(2015, 3, 1);
 
 		Investimento cdb = new Investimento(1000.0, dataInicial, 0.11, TipoDeInvestimento.CDB);
@@ -40,7 +47,7 @@ public class Principal {
 		}
 
 		// lista investimentos joao
-		for (Investimento investimento : joao.getInvestimentos()) {
+		for (Investimento investimento : joao.getConta().getInvestimentos()) {
 			System.out.println(investimento);
 		}
 		System.out.println("saldo de " + joao.getNome() + ": " + conta.getSaldo());
@@ -59,15 +66,15 @@ public class Principal {
 		}
 
 		// lista investimentos maria
-		for (Investimento investimento : maria.getInvestimentos()) {
+		for (Investimento investimento : maria.getConta().getInvestimentos()) {
 			System.out.println(investimento);
 		}
 		System.out.println("saldo de " + maria.getNome() + ": " + conta2.getSaldo());
 		System.out.println("=====");
 
 		Corretora corretora = new Corretora();
-		corretora.adiciona(joao, joao.getInvestimentos());
-		corretora.adiciona(maria, maria.getInvestimentos());
+		corretora.adiciona(joao, joao.getConta().getInvestimentos());
+		corretora.adiciona(maria, maria.getConta().getInvestimentos());
 		
 		System.out.println("todos os investimentos: ");
 		System.out.println(corretora.getListaDeInvestimentos());
@@ -82,5 +89,7 @@ public class Principal {
 		
 		System.out.println("todos os investimentos(atualizado): ");
 		System.out.println(corretora.getListaDeInvestimentos());
+		
+		
 	}
 }
