@@ -18,7 +18,7 @@ public class Investimento {
 			throw new IllegalArgumentException("valor inválido - o valor mínimo para o cdb é " + valorMinimo);
 		if (valor == null)
 			throw new NullPointerException("o valor não pode ser nulo");
-		if (!(valor > 0.0))
+		if (valor < 0.0)
 			throw new IllegalArgumentException("o valor deve ser positivo");
 		// if (dataInicial.isBefore(LocalDate.now()))
 		// throw new IllegalArgumentException("data inválida - a data deve ser
@@ -27,7 +27,7 @@ public class Investimento {
 			throw new NullPointerException("a data não pode ser nula");
 		if (taxaDeJuros == null)
 			throw new NullPointerException("a taxa de juros não pode ser nula");
-		if (!(taxaDeJuros > 0.0))
+		if (taxaDeJuros < 0.0)
 			throw new IllegalArgumentException("a taxa de Juros deve ser positiva");
 		if (tipo == null)
 			throw new NullPointerException("o tipo não pode ser nulo");
@@ -42,10 +42,6 @@ public class Investimento {
 		return valor;
 	}
 
-	public Long getIntervalo() {
-		return dataInicial.until(LocalDate.now(), ChronoUnit.MONTHS);
-	}
-
 	public TipoDeInvestimento getTipo() {
 		return tipo;
 	}
@@ -56,6 +52,10 @@ public class Investimento {
 
 	public Double getTaxaDeJuros() {
 		return taxaDeJuros;
+	}
+	
+	public Long getIntervalo() {
+		return dataInicial.until(LocalDate.now(), ChronoUnit.MONTHS);
 	}
 
 	private Double getRentabilidadeMensal() {
@@ -82,6 +82,14 @@ public class Investimento {
 	public String toString() {
 		return "[" + this.getTipo() + ", " + this.getValor() + ", " + this.getTaxaDeJuros() + ", "
 				+ this.getDataInicial().toString() + "]";
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getId() {
+		return this.id;
 	}
 
 }
