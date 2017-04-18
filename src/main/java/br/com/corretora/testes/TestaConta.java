@@ -1,18 +1,50 @@
-package br.com.corretora;
+package br.com.corretora.testes;
+
 
 import br.com.corretora.modelo.Conta;
+import br.com.corretora.modelo.Usuario;
 
 public class TestaConta {
 
 	public static void main(String[] args) {
+		System.out.println("testaCriarContaComUsuarioNulo() " + (testaCriarContaComUsuarioNulo() ? "Passou!" : "Falhou!"));
+		System.out.println("testaCriarContaComNumeroNulo() " + (testaCriarContaComNumeroNulo() ? "Passou!" : "Falhou!"));
+		System.out.println("testaCriarContaComSaldoNulo() " + (testaCriarContaComSaldoNulo() ? "Passou!" : "Falhou!"));
 		System.out.println("testaCriarContaComSaldoNegativo() " + (testaCriarContaComSaldoNegativo()  ? "Passou!" : "Falhou!"));
-		System.out.println("testaCriarContaSemSaldo() " + (testaCriarContaSemSaldo()  ? "Passou!" : "Falhou!"));
-		System.out.println("testaSaqueMaiorDoQueSaldo() " + (testaSaqueMaiorDoQueSaldo() ? "Passou!" : "Falhou!"));
+		System.out.println("testaMetodoInvesteComInvestimentoNulo() " + (testaMetodoInvesteComInvestimentoNulo() ? "Passou!" : "Falhou!"));
 	}
 	
-	public static boolean testaCriarContaComSaldoNegativo() {
+	
+	private static boolean testaCriarContaComUsuarioNulo() {
 		try {
-			Conta conta = new Conta(-10.0);
+			Conta conta = new Conta(null, "123-4", 1000.0);
+		} catch (NullPointerException e) {
+			System.out.println("Usuario não pode ser nulo");
+		}
+		return true;
+	}
+	
+	private static boolean testaCriarContaComNumeroNulo() {
+		try {
+			Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), null, 1000.0);
+		} catch (NullPointerException e) {
+			System.out.println("Numero não pode ser nulo");
+		}
+		return true;
+	}
+	
+	private static boolean testaCriarContaComSaldoNulo() {
+		try {
+			Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "123-4", null);
+		} catch (NullPointerException e) {
+			System.out.println("Numero não pode ser nulo");
+		}
+		return true;
+	}
+	
+	private static boolean testaCriarContaComSaldoNegativo() {
+		try {
+			Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "123-4", -10.0);
 		} catch (IllegalArgumentException e) {
 			System.out.println("Saldo não pode ser negativo");
 		}
@@ -20,23 +52,13 @@ public class TestaConta {
 		return true;
 	}
 	
-	public static boolean testaCriarContaSemSaldo() {
+	private static boolean testaMetodoInvesteComInvestimentoNulo() {
 		try {
-			Double saldo = null;
-			Conta conta = new Conta(saldo);
+			Conta conta  = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "123-4", 1000.0);
+			//Investimento investimento = new Investimento(1000.0, LocalDate.of(2016, 1, 1), 0.10, TipoDeInvestimento.CDB);
+			conta.investe(null);
 		} catch (NullPointerException e) {
-			System.out.println("Saldo não pode ser vazio");
-		}
-		
-		return true;
-	}
-	
-	public static boolean testaSaqueMaiorDoQueSaldo() {
-		try {
-			Conta conta  = new Conta(1000.0);
-			conta.saca(5000.0);
-		} catch (IllegalArgumentException e) {
-			System.out.println("Saque inválido - valor sacado deve ser menor ou igual ao saldo.");
+			System.out.println("operação inválida - investimento não pode ser nulo.");
 		}
 		return true;
 	}

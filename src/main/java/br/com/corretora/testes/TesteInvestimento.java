@@ -1,4 +1,4 @@
-package br.com.corretora;
+package br.com.corretora.testes;
 
 import java.time.LocalDate;
 
