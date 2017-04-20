@@ -38,11 +38,4 @@ public class UsuarioTest {
 	public void usuarioNaoPodeTerNomeELoginESenhaNulos() {
 		new Usuario (null, null, null);
 	}
-	
-	
-	
-	
-	
-	
-	
 }

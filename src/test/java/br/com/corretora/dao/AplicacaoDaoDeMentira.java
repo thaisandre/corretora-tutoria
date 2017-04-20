@@ -18,5 +18,4 @@ public class AplicacaoDaoDeMentira extends AplicacaoDao {
 	public List<Investimento> getInvestimentosPor(Conta conta) {
 		return investimentos;
 	}
-
 }

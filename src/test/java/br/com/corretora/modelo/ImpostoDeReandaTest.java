@@ -8,10 +8,9 @@ import org.junit.Test;
 
 public class ImpostoDeReandaTest {
 	
-	Desconto imposto;
+	private Desconto imposto;
 	
 	@Before
-	@Test
 	public void setUp() {
 		this.imposto = new ImpostoDeRenda();
 	}

@@ -104,7 +104,7 @@ public class InvestimentoTest {
 	}
 	
 	@Test
-	public void resgateDeveSer() {
+	public void resgateDeveSerMilCentoEOitentaECinco() {
 		Investimento investimento = new Investimento(1000.0, LocalDate.now().minusYears(2), 0.11, TipoDeInvestimento.CDB);
 		Assert.assertEquals(1185.68, investimento.getTotalResgate(), 0.000001);
 	}

@@ -1,31 +1,25 @@
 package br.com.corretora.modelo;
 
-import java.sql.SQLException;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.time.LocalDate;
 import java.util.Arrays;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 import br.com.corretora.dao.AplicacaoDao;
-import br.com.corretora.dao.AplicacaoDaoDeMentira;
 
 public class AplicacaoTest {
 	
-	Investimento investimento;
-	AplicacaoDao dao;
+	private Investimento investimento;
 	
 	@Before
 	public void setUp() {
-		this.investimento = new Investimento(10000.0, LocalDate.now(),0.1, TipoDeInvestimento.CDB);
-		this.dao = new AplicacaoDaoDeMentira(Arrays.asList(investimento));
-	}
-	
-	@After
-	public void close() throws SQLException {
-		//connection.close();
+		this.investimento = new Investimento(1000.0, LocalDate.now(), 0.1, TipoDeInvestimento.CDB);
 	}
 	
 	@Test(expected = NullPointerException.class)
@@ -35,7 +29,7 @@ public class AplicacaoTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void aplicacaoNaoPodeTerInvestimentoNulo() {
-		new Aplicacao(new Conta(new Usuario("joao", "joao@abc.com", "1234"), "1234-10", 20000.0, dao), null);
+		new Aplicacao(new Conta(new Usuario("joao", "joao@abc.com", "1234"), "1234-10", 20000.0), null);
 	}
 	
 	@Test(expected = NullPointerException.class)
@@ -45,36 +39,48 @@ public class AplicacaoTest {
 	
 	@Test(expected = RuntimeException.class)
 	public void NaoPodeResgatarAplicacaoComDuracaoMenorDoQue2anos() {
-		Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "1234-11", 10000.0, dao);
-		Investimento investimento = new Investimento(2000.0, LocalDate.now().minusYears(1), 0.11, TipoDeInvestimento.CDB);
 		
-		Aplicacao aplicacao = new Aplicacao(conta, investimento);
+		Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "1234-11", 20000.0);
+		Investimento investimento1 = new Investimento(1000.0, LocalDate.now().minusYears(1), 0.11, TipoDeInvestimento.CDB);
+		
+		Aplicacao aplicacao = new Aplicacao(conta, investimento1);
+		
 		aplicacao.resgata();
 	}
 	
 	@Test
 	public void devePermitirResgatar() {
-		Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "1234-12", 1000.0, dao);
-		Investimento investimento = new Investimento(2000.0, LocalDate.now().minusYears(2), 0.10, TipoDeInvestimento.LCI);
+		Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "1234-12", 1000.0);
+		Investimento investimento1 = new Investimento(2000.0, LocalDate.now().minusYears(2), 0.10, TipoDeInvestimento.LCI);
 		
-		Aplicacao aplicacao = new Aplicacao(conta, investimento);
+		Aplicacao aplicacao = new Aplicacao(conta, investimento1);
 		Assert.assertEquals(true, aplicacao.resgata());
 	}
 	
 	@Test(expected=RuntimeException.class)
 	public void contaNaoPodeTerMaisDoQueCincoAplicacoes() {
+
+		AplicacaoDao mockedDao = mock(AplicacaoDao.class);
 		
-		AplicacaoDao dao1 = new AplicacaoDaoDeMentira(Arrays.asList(investimento, investimento, investimento, investimento, investimento));
-		Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "1234-13", 10000.0, dao1);
+		Corretora corretora = new Corretora(mockedDao);
+				
+		Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "1234-13", 40000.0);
+		when(mockedDao.getInvestimentosPor(conta)).thenReturn(Arrays.asList(investimento, investimento, investimento, investimento, investimento));
 		
-		Aplicacao aplicacao = conta.investe(investimento);
-		
+		corretora.aplica(conta, investimento);
 	}
 	
 	@Test
 	public void deveDeixarUmaContaTerCincoAplicacoes() {
-		AplicacaoDao dao2 = new AplicacaoDaoDeMentira(Arrays.asList(investimento, investimento, investimento, investimento, investimento));
-		Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "1234-14", 10000.0, dao2);
+		AplicacaoDao mockedDao = mock(AplicacaoDao.class);
+		Corretora corretora = new Corretora(mockedDao);
+		
+		Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "1234-14", 10000.0);
+		when(mockedDao.getInvestimentosPor(conta)).thenReturn(Arrays.asList(investimento, investimento, investimento, investimento));
+		
+		Aplicacao aplicacao = corretora.aplica(conta, investimento);
+		
+		Assert.assertEquals(9000.0, aplicacao.getConta().getSaldo(), 0.00001);
 	}
 
 }
