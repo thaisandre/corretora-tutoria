@@ -3,18 +3,15 @@ package br.com.corretora.modelo;
 import java.util.HashSet;
 import java.util.Set;
 
-import br.com.corretora.dao.AplicacaoDao;
-
 public class Conta {
 
 	private Integer id;
 	private String numero;
 	private Double saldo;
 	private Usuario usuario;
-	private AplicacaoDao dao;
 	private static Set<String> numeros = new HashSet<String>();
 
-	public Conta(Usuario usuario, String numero, Double saldo, AplicacaoDao dao) {
+	public Conta(Usuario usuario, String numero, Double saldo) {
 		if (usuario == null)
 			throw new NullPointerException("usuario não pode ser nulo");
 		if (saldo == null)
@@ -28,7 +25,6 @@ public class Conta {
 		this.usuario = usuario;
 		this.saldo = saldo;
 		this.numero = numero;
-		this.dao = dao;
 		cadastra();
 	}
 
@@ -74,14 +70,9 @@ public class Conta {
 	}
 
 	public Aplicacao investe(Investimento investimento) {
-		if (dao.getInvestimentosPor(this).size() < 5) {
-			saca(investimento.getValor());
-			Aplicacao aplicacao = new Aplicacao(this, investimento);
-			dao.salva(aplicacao);
-			return aplicacao;
-		} else {
-			throw new RuntimeException("operação inválida - conta já possui 5 investimentos");
-		}
+		saca(investimento.getValor());
+		Aplicacao aplicacao = new Aplicacao(this, investimento);
+		return aplicacao;
 	}
 
 	private boolean cadastra() {

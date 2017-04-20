@@ -1,10 +1,13 @@
 package br.com.corretora.modelo;
 
+import br.com.corretora.dao.AplicacaoDao;
+
 public class Aplicacao {
 
-	Integer id;
-	Conta conta;
-	Investimento investimento;
+	private Integer id;
+	private Conta conta;
+	private Investimento investimento;
+	private AplicacaoDao dao;
 
 	public Aplicacao(Conta conta, Investimento investimento) {
 		if(conta == null) throw new NullPointerException("conta não pode ser nula");
@@ -30,11 +33,13 @@ public class Aplicacao {
 	}
 
 	public boolean resgata() {
-		if (investimento.getIntervalo() >= 24) {
+		if(getInvestimento().getIntervalo() >= 24) {
 			conta.deposita(investimento.getTotalResgate());
-			//conta.getInvestimentos().remove(investimento);
 			return true;
 		}
-		throw new RuntimeException("não pode resgatar antes da aplicação completar 2 anos");
+		else {
+			throw new RuntimeException("operação inválida - não pode resgatar antes de completar 2 anos");
+		}
 	}
+
 }

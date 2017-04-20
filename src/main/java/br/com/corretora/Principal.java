@@ -3,7 +3,6 @@ package br.com.corretora;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.List;
 
 import br.com.corretora.dao.AplicacaoDao;
 import br.com.corretora.dao.ContaDao;
@@ -28,8 +27,8 @@ public class Principal {
 		
 		// usuario 1 com 2 contas
 		Usuario pedro = usuarioDao.salva(new Usuario("pedro", "pedro@abc.com", "4321"));
-		Conta conta = contaDao.salva(new Conta(pedro, "901-4", 10000.0, aplicacaoDao));
-		Conta conta2 = contaDao.salva(new Conta(pedro, "973-7", 20000.0, aplicacaoDao));
+		Conta conta = contaDao.salva(new Conta(pedro, "901-4", 10000.0));
+		Conta conta2 = contaDao.salva(new Conta(pedro, "973-7", 20000.0));
 		
 		LocalDate dataInicial = LocalDate.of(2015, 3, 22);
 
@@ -38,7 +37,7 @@ public class Principal {
 
 		// usuario 2 com 1 conta
 		Usuario joana = usuarioDao.salva(new Usuario("joana", "joana@abc.com", "5321"));
-		Conta conta3 = contaDao.salva(new Conta(joana, "243-5", 19600.0, aplicacaoDao));
+		Conta conta3 = contaDao.salva(new Conta(joana, "243-5", 19600.0));
 		
 		LocalDate dataInicial2 = LocalDate.of(2014, 4, 12);
 
@@ -46,15 +45,15 @@ public class Principal {
 		Investimento lci2 = investimentoDao.salva( new Investimento(1000.0, dataInicial2, 0.07, TipoDeInvestimento.LCI));
 		
 		Aplicacao aplicacao = conta.investe(cdb2);
-		//aplicacaoDao.salva(aplicacao);
+		aplicacaoDao.salva(aplicacao);
 		Aplicacao aplicacao1 = conta2.investe(lci);
-		//aplicacaoDao.salva(aplicacao1);
+		aplicacaoDao.salva(aplicacao1);
 		
 		
 		Aplicacao aplicacao2 = conta3.investe(cdb);
-		//aplicacaoDao.salva(aplicacao2);
+		aplicacaoDao.salva(aplicacao2);
 		Aplicacao aplicacao3 = conta3.investe(lci2);
-		//aplicacaoDao.salva(aplicacao3);
+		aplicacaoDao.salva(aplicacao3);
 		
 		connection.close();
 	}
