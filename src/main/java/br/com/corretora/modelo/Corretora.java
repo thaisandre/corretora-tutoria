@@ -1,23 +1,21 @@
 package br.com.corretora.modelo;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import br.com.corretora.dao.AplicacaoDao;
 
 public class Corretora {
-
-	Map<Usuario, List<Investimento>> listaInvestimentos = new HashMap<Usuario, List<Investimento>>();
-
-	public Map<Usuario, List<Investimento>> getListaDeInvestimentos() {
-		return this.listaInvestimentos;
+	
+	private AplicacaoDao dao;
+	
+	public Corretora(AplicacaoDao dao) {
+		this.dao = dao;
 	}
-
-	public List<Investimento> adiciona(Usuario usuario, List<Investimento> investimentos) {
-		return this.listaInvestimentos.put(usuario, investimentos);
+	
+	public Aplicacao aplica(Conta conta, Investimento investimento) {
+		if(dao.getInvestimentosPor(conta).size() < 5) {
+			return conta.investe(investimento);
+		}
+		else {
+			throw new RuntimeException("operação inválida - conta já possui 5 investimentos");
+		}
 	}
-
-	public List<Investimento> remove(Usuario usuario) {
-		return this.listaInvestimentos.remove(usuario);
-	}
-
 }
