@@ -5,13 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.mysql.jdbc.Statement;
 
 import br.com.corretora.modelo.Usuario;
 
 public class UsuarioDao {
 
-	Connection connection;
+	private Connection connection;
 	
 	public UsuarioDao(Connection connection) {
 		this.connection = connection;

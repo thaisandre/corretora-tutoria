@@ -11,7 +11,7 @@ import br.com.corretora.modelo.Investimento;
 
 public class InvestimentoDao {
 
-	Connection connection;
+	private Connection connection;
 	
 	public InvestimentoDao(Connection connection) {
 		this.connection = connection;
