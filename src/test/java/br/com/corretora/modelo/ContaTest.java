@@ -1,11 +1,19 @@
 package br.com.corretora.modelo;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.time.LocalDate;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mock;
 
 public class ContaTest {
+	
+	@Mock
+	Conta mockedConta = mock(Conta.class);
+	Investimento mockedInvestimento = mock(Investimento.class);
 
 	@Test(expected = NullPointerException.class)
 	public void contaNaoPodeTerUsuarioNulo() {
@@ -67,22 +75,29 @@ public class ContaTest {
 
 	@Test
 	public void saldoDaContaDeveSerNoveMil() {
-		Investimento investimento = new Investimento(1000.0, LocalDate.of(2014, 1, 1), 0.11, TipoDeInvestimento.CDB);
+		when(mockedInvestimento.getValor()).thenReturn(1000.0);
+		when(mockedInvestimento.getDataInicial()).thenReturn(LocalDate.of(2014, 1, 1));
+		when(mockedInvestimento.getTaxaDeJuros()).thenReturn(0.11);
+		when(mockedInvestimento.getTipo()).thenReturn(TipoDeInvestimento.CDB);
 
 		Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "1234-5", 10000.0);
 
-		Aplicacao aplicacao = conta.investe(investimento);
-		Assert.assertEquals(9000.0, aplicacao.getConta().getSaldo(), 0.000001);
+		Aplicacao aplicacao = conta.investe(mockedInvestimento);
+		Assert.assertEquals(9000.0, conta.getSaldo(), 0.000001);
 	}
 
 	@Test
 	public void saldoDaContaDeveSerZero() {
-		Investimento investimento = new Investimento(10000.0, LocalDate.of(2014, 1, 1), 0.11, TipoDeInvestimento.LCI);
-
+		when(mockedInvestimento.getValor()).thenReturn(10000.0);
+		when(mockedInvestimento.getDataInicial()).thenReturn(LocalDate.of(2014, 1, 1));
+		when(mockedInvestimento.getTaxaDeJuros()).thenReturn(0.11);
+		when(mockedInvestimento.getTipo()).thenReturn(TipoDeInvestimento.CDB);
+		
 		Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "1234-6", 10000.0);
-
-		Aplicacao aplicacao = conta.investe(investimento);
-		Assert.assertEquals(0.0, aplicacao.getConta().getSaldo(), 0.000001);
+		
+		Aplicacao aplicacao = conta.investe(mockedInvestimento);
+		Assert.assertEquals(10000.0, aplicacao.getInvestimento().getValor(), 0.00001);
+		Assert.assertEquals(0.0, conta.getSaldo(), 0.00001);
 	}
 
 	@Test(expected = RuntimeException.class)

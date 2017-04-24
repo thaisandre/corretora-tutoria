@@ -20,9 +20,8 @@ public class Investimento {
 			throw new NullPointerException("o valor não pode ser nulo");
 		if (valor < 0.0)
 			throw new IllegalArgumentException("o valor deve ser positivo");
-		// if (dataInicial.isBefore(LocalDate.now()))
-		// throw new IllegalArgumentException("data inválida - a data deve ser
-		// futura");
+		if (dataInicial.isBefore(LocalDate.now()))
+			throw new IllegalArgumentException("data inválida - a data deve ser futura");
 		if (dataInicial == null)
 			throw new NullPointerException("a data não pode ser nula");
 		if (taxaDeJuros == null)

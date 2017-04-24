@@ -74,7 +74,6 @@ public class AplicacaoDao {
 						TipoDeInvestimento.valueOf(rs.getString("tipo")));
 
 				investimento.setId(rs.getInt("id"));
-
 				investimentos.add(investimento);
 
 			}

@@ -1,13 +1,10 @@
 package br.com.corretora.modelo;
 
-import br.com.corretora.dao.AplicacaoDao;
-
 public class Aplicacao {
 
 	private Integer id;
 	private Conta conta;
 	private Investimento investimento;
-	private AplicacaoDao dao;
 
 	public Aplicacao(Conta conta, Investimento investimento) {
 		if(conta == null) throw new NullPointerException("conta não pode ser nula");
