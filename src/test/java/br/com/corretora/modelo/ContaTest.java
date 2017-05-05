@@ -15,37 +15,37 @@ public class ContaTest {
 	Conta mockedConta = mock(Conta.class);
 	Investimento mockedInvestimento = mock(Investimento.class);
 
-	@Test(expected = NullPointerException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void contaNaoPodeTerUsuarioNulo() {
 		new Conta(null, "1234-0", 10.0);
 	}
 
-	@Test(expected = NullPointerException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void contaNaoPodeTerSaldoNulo() {
 		new Conta(new Usuario("joao", "joao@abc.com", "1235"), "1234-0", null);
 	}
 
-	@Test(expected = NullPointerException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void contaNaoPodeTerNumeroNulo() {
 		new Conta(new Usuario("joao", "joao@abc.com", "1235"), null, 10.0);
 	}
 
-	@Test(expected = NullPointerException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void contaNaoPodeTerUsuarioENumeroNulos() {
 		new Conta(null, null, 10.0);
 	}
 
-	@Test(expected = NullPointerException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void contaNaoPodeTerUsuarioESaldoNulos() {
 		new Conta(null, "1234-2", null);
 	}
 
-	@Test(expected = NullPointerException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void contaNaoPodeTerNumeroESaldoNulos() {
 		new Conta(new Usuario("joao", "joao@abc.com", "1234"), null, null);
 	}
 
-	@Test(expected = NullPointerException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void contaNaoPodeTerUsuarioESaldoENumeronulos() {
 		new Conta(null, null, null);
 	}
@@ -105,7 +105,7 @@ public class ContaTest {
 		Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "1234-7", 10000.0);
 		Investimento investimento = new Investimento(10001.0, LocalDate.of(2014, 1, 1), 0.11, TipoDeInvestimento.LCI);
 
-		Aplicacao aplicacao = conta.investe(investimento);
+		conta.investe(investimento);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
