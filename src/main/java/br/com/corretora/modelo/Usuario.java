@@ -1,7 +1,16 @@
 package br.com.corretora.modelo;
 
-public class Usuario {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+
+@Entity(name = "usuario")
+public class Usuario {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
 	private String login;
@@ -9,13 +18,13 @@ public class Usuario {
 	
 	public Usuario(String nome, String login, String senha) {
 		if (nome == null) {
-			throw new NullPointerException("nome não pode ser nulo");
+			throw new IllegalArgumentException("nome não pode ser nulo");
 		}
 		if(login == null) {
-			throw new NullPointerException("login não pode ser nulo");
+			throw new IllegalArgumentException("login não pode ser nulo");
 		}
 		if(senha == null) {
-			throw new NullPointerException("senha não pode ser nula");
+			throw new IllegalArgumentException("senha não pode ser nula");
 		}
 		this.nome = nome;
 		this.login = login;

@@ -1,14 +1,30 @@
 package br.com.corretora.modelo;
 
-public class Aplicacao {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
+@Entity(name="aplicacao")
+public class Aplicacao {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
+	@OneToOne
+	@JoinColumn(name="id_conta")
 	private Conta conta;
+	
+	@OneToOne
+	@JoinColumn(name="id_investimento")
 	private Investimento investimento;
 
 	public Aplicacao(Conta conta, Investimento investimento) {
-		if(conta == null) throw new NullPointerException("conta não pode ser nula");
-		if(investimento == null) throw new NullPointerException("investimento não pode ser nulo");
+		if(conta == null) throw new IllegalArgumentException("conta não pode ser nula");
+		if(investimento == null) throw new IllegalArgumentException("investimento não pode ser nulo");
 		this.conta = conta;
 		this.investimento = investimento;
 	}

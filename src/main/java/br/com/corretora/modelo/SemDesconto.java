@@ -6,7 +6,4 @@ public class SemDesconto implements Desconto {
 	public Double getValor(Investimento investimento) {
 		return 0.0;
 	}
-
-	
-
 }

@@ -18,6 +18,4 @@ public enum TipoDeInvestimento {
 		return desconto.stream().map(i -> i.getValor(investimento))
 				.reduce(0.0, (a,b) -> a+b);
 	}
-	
-	
 }

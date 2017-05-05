@@ -3,23 +3,41 @@ package br.com.corretora.modelo;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Conta {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
+@Entity(name="conta")
+public class Conta {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String numero;
+	
+	@Column
 	private Double saldo;
+	
+	@ManyToOne
+	@JoinColumn(name="id_usuario")
 	private Usuario usuario;
+	
 	private static Set<String> numeros = new HashSet<String>();
 
 	public Conta(Usuario usuario, String numero, Double saldo) {
 		if (usuario == null)
-			throw new NullPointerException("usuario não pode ser nulo");
+			throw new IllegalArgumentException("usuario não pode ser nulo");
 		if (saldo == null)
-			throw new NullPointerException("Saldo não pode ser vazio");
+			throw new IllegalArgumentException("Saldo não pode ser vazio");
 		if (saldo <= 0.0)
 			throw new IllegalArgumentException("Saldo deve ser positivo");
 		if (numero == null)
-			throw new NullPointerException("numero não pode ser nulo");
+			throw new IllegalArgumentException("numero não pode ser nulo");
 		if (numeros.contains(numero))
 			throw new IllegalArgumentException("numero de conta já existente");
 		this.usuario = usuario;

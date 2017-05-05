@@ -3,40 +3,54 @@ package br.com.corretora.modelo;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity(name="investimento")
 public class Investimento {
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	private Double valor;
-	private LocalDate dataInicial;
+	
+	private Double valor;	
+	private LocalDate dataInicial;	
 	private Double taxaDeJuros;
+	
+	@Enumerated(EnumType.STRING)
 	private TipoDeInvestimento tipo;
-
-	private final Double valorMinimo = 1000.0;
+	
+	private transient final Double valorMinimo = 1000.0;
 
 	public Investimento(Double valor, LocalDate dataInicial, Double taxaDeJuros, TipoDeInvestimento tipo) {
+		if (valor == null)
+			throw new IllegalArgumentException("o valor não pode ser nulo");
 		if (valor < valorMinimo)
 			throw new IllegalArgumentException("valor inválido - o valor mínimo para o cdb é " + valorMinimo);
-		if (valor == null)
-			throw new NullPointerException("o valor não pode ser nulo");
 		if (valor < 0.0)
 			throw new IllegalArgumentException("o valor deve ser positivo");
-		if (dataInicial.isBefore(LocalDate.now()))
-			throw new IllegalArgumentException("data inválida - a data deve ser futura");
+		//if (dataInicial.isBefore(LocalDate.now()))
+		//	throw new IllegalArgumentException("data inválida - a data deve ser futura");
 		if (dataInicial == null)
-			throw new NullPointerException("a data não pode ser nula");
+			throw new IllegalArgumentException("a data não pode ser nula");
 		if (taxaDeJuros == null)
-			throw new NullPointerException("a taxa de juros não pode ser nula");
+			throw new IllegalArgumentException("a taxa de juros não pode ser nula");
 		if (taxaDeJuros < 0.0)
 			throw new IllegalArgumentException("a taxa de Juros deve ser positiva");
 		if (tipo == null)
-			throw new NullPointerException("o tipo não pode ser nulo");
+			throw new IllegalArgumentException("o tipo não pode ser nulo");
 
 		this.valor = valor;
 		this.dataInicial = dataInicial;
 		this.taxaDeJuros = taxaDeJuros;
 		this.tipo = tipo;
 	}
-
+	public Investimento() {}
+	
 	public Double getValor() {
 		return valor;
 	}
@@ -54,7 +68,7 @@ public class Investimento {
 	}
 	
 	public Long getIntervalo() {
-		return dataInicial.until(LocalDate.now(), ChronoUnit.MONTHS);
+		return getDataInicial().until(LocalDate.now(), ChronoUnit.MONTHS);
 	}
 
 	private Double getRentabilidadeMensal() {
@@ -90,5 +104,4 @@ public class Investimento {
 	public Integer getId() {
 		return this.id;
 	}
-
 }
