@@ -1,9 +1,10 @@
 package br.com.corretora.modelo;
 
-public class SemDesconto implements Desconto {
+public class TaxaDeAdministracao implements Desconto {
 
 	@Override
 	public Double getValor(Aplicacao aplicacao) {
-		return 0.0;
+		return 0.01;
 	}
+
 }

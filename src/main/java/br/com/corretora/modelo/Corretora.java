@@ -1,6 +1,5 @@
 package br.com.corretora.modelo;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,21 +21,12 @@ public class Corretora {
 		return investimentos;
 	}
 	
-	public Aplicacao aplica(Conta conta, Investimento investimento) {
-		if((dao.getInvestimentosPor(conta).size() < 5) && (investimentos.contains(investimento))) {
-			return conta.investe(investimento);
+	public Aplicacao aplica(Conta conta, Investimento investimento, Double valor) {
+		if((dao.getInvestimentosPor(conta).size() < 5)) {
+			return conta.investe(investimento, valor);
 		}
 		else {
 			throw new RuntimeException("operação inválida - conta já possui 5 investimentos");
 		}
-	}
-	
-	public Investimento criaInvestimento(Double valor, LocalDate dataInicial, Double taxaDeJuros, TipoDeInvestimento tipo) {
-		if(dataInicial.isBefore(LocalDate.now())) {
-			throw new IllegalArgumentException();
-		}
-		Investimento investimento = new Investimento(valor, dataInicial, taxaDeJuros, tipo);
-		investimentos.add(investimento);
-		return investimento;
 	}
 }

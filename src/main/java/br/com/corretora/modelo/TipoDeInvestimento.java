@@ -6,7 +6,8 @@ import java.util.List;
 public enum TipoDeInvestimento {
 	
 	CDB(new ImpostoDeRenda()),
-	LCI(new SemDesconto());
+	LCI(new SemDesconto()),
+	FDI(new ImpostoDeRenda(), new TaxaDeAdministracao());
 	
 	private List<Desconto> desconto;
 	
@@ -14,8 +15,8 @@ public enum TipoDeInvestimento {
 		desconto = Arrays.asList(descontos); 
 	}
 	
-	public Double calcula(Investimento investimento) {
-		return desconto.stream().map(i -> i.getValor(investimento))
+	public Double calcula(Aplicacao aplicacao) {
+		return desconto.stream().map(d -> d.getValor(aplicacao))
 				.reduce(0.0, (a,b) -> a+b);
 	}
 }
