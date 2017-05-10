@@ -31,21 +31,24 @@ public class TestaJPA {
 		contaDao.salva(conta);
 		
 		InvestimentoDao investimentoDao = new InvestimentoDao(manager);
-		Investimento investimento = new Investimento(1800.0, LocalDate.now(), 0.09, TipoDeInvestimento.CDB);
+		Investimento investimento = new Investimento(TipoDeInvestimento.CDB, 0.09, 24, 1000.0);
 		investimentoDao.salva(investimento);
 		
-		Investimento investimento2 = new Investimento(1250.0, LocalDate.now(), 0.13, TipoDeInvestimento.LCI);
+		Investimento investimento2 = new Investimento(TipoDeInvestimento.LCI, 0.13, 24, 1200.0);
 		investimentoDao.salva(investimento2);
 		
 		AplicacaoDao aplicacaoDao = new AplicacaoDao(manager);
-		Aplicacao aplicacao = new Aplicacao(conta, investimento);
+		Aplicacao aplicacao = new Aplicacao(conta, investimento, LocalDate.now(), 2500.0);
 		aplicacaoDao.salva(aplicacao);
 		
-		Aplicacao aplicacao2 = new Aplicacao(conta, investimento2);
+		Aplicacao aplicacao2 = new Aplicacao(conta, investimento2, LocalDate.now(), 3000.0);
 		aplicacaoDao.salva(aplicacao2);
 		
 		List<Investimento> lista = aplicacaoDao.getInvestimentosPor(conta);
 		System.out.println(lista);
+		
+		List<Usuario> usuarios = usuarioDao.lista();
+		System.out.println(usuarios);
 		
 		manager.getTransaction().commit();
 		manager.close();
