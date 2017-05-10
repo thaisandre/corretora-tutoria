@@ -75,37 +75,37 @@ public class ContaTest {
 
 	@Test
 	public void saldoDaContaDeveSerNoveMil() {
-		when(mockedInvestimento.getValor()).thenReturn(1000.0);
-		when(mockedInvestimento.getDataInicial()).thenReturn(LocalDate.of(2014, 1, 1));
+		when(mockedInvestimento.getValorMinimo()).thenReturn(100.0);
+		when(mockedInvestimento.getPrazo()).thenReturn(24);
 		when(mockedInvestimento.getTaxaDeJuros()).thenReturn(0.11);
 		when(mockedInvestimento.getTipo()).thenReturn(TipoDeInvestimento.CDB);
 
 		Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "1234-5", 10000.0);
 
-		Aplicacao aplicacao = conta.investe(mockedInvestimento);
+		Aplicacao aplicacao = conta.investe(mockedInvestimento, 1000.0);
 		Assert.assertEquals(9000.0, conta.getSaldo(), 0.000001);
 	}
 
 	@Test
 	public void saldoDaContaDeveSerZero() {
-		when(mockedInvestimento.getValor()).thenReturn(10000.0);
-		when(mockedInvestimento.getDataInicial()).thenReturn(LocalDate.of(2014, 1, 1));
+		when(mockedInvestimento.getValorMinimo()).thenReturn(1000.0);
+		when(mockedInvestimento.getPrazo()).thenReturn(24);
 		when(mockedInvestimento.getTaxaDeJuros()).thenReturn(0.11);
 		when(mockedInvestimento.getTipo()).thenReturn(TipoDeInvestimento.CDB);
 		
 		Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "1234-6", 10000.0);
 		
-		Aplicacao aplicacao = conta.investe(mockedInvestimento);
-		Assert.assertEquals(10000.0, aplicacao.getInvestimento().getValor(), 0.00001);
+		Aplicacao aplicacao = conta.investe(mockedInvestimento, 10000.0);
+		Assert.assertEquals(10000.0, aplicacao.getValor(), 0.00001);
 		Assert.assertEquals(0.0, conta.getSaldo(), 0.00001);
 	}
 
 	@Test(expected = RuntimeException.class)
 	public void naoDevePermitirInvestirValorMaiorDoQueSaldo() {
 		Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "1234-7", 10000.0);
-		Investimento investimento = new Investimento(10001.0, LocalDate.of(2014, 1, 1), 0.11, TipoDeInvestimento.LCI);
+		Investimento investimento = new Investimento(TipoDeInvestimento.LCI, 0.11, 24, 1000.0);
 
-		conta.investe(investimento);
+		conta.investe(investimento, 10001.0);
 	}
 
 	@Test(expected = IllegalArgumentException.class)

@@ -1,13 +1,10 @@
 package br.com.corretora.modelo;
 
-import java.time.LocalDate;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mock;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
 
 public class InvestimentoTest {
 	
@@ -15,110 +12,98 @@ public class InvestimentoTest {
 	Investimento mockedInvestimento = mock(Investimento.class);
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void investimentoNaoPodeTerValorNulo() {
-		new Investimento(null, LocalDate.now(), 0.11, TipoDeInvestimento.CDB);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void investimentoNaoPodeTerDataNula() {
-		new Investimento(1000.0, null, 0.11, TipoDeInvestimento.CDB);
+	public void investimentoNaoPodeTerTipoNulo() {
+		new Investimento(null, 0.11, 24, 1000.0);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void investimentoNaoPodeTerTaxaDeJurosNula() {
-		new Investimento(1000.0, LocalDate.now(), null, TipoDeInvestimento.CDB);
+		new Investimento(TipoDeInvestimento.LCI, null, 24, 1000.0);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void investimentoNaoPodeTerPrazoNulo() {
+		new Investimento(TipoDeInvestimento.CDB, 0.09, null, 1000.0);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void investimentoNaoPodeTerTipoNulo() {
-		new Investimento(1000.0, LocalDate.now(), 0.11, null);
+	public void investimentoNaoPodeTerValorNulo() {
+		new Investimento(TipoDeInvestimento.CDB, 0.11, 24, null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void investimentoNaoPodeTerValorEDataNulos() {
-		new Investimento(null, null, 0.11, TipoDeInvestimento.CDB);
+	public void investimentoNaoPodeTerTipoETaxaDeJurosNulos() {
+		new Investimento(null, null, 24, 1000.0);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void investimentoNaoPodeTerValorETaxaDeJurosNulos() {
-		new Investimento(null, LocalDate.now(), null, TipoDeInvestimento.CDB);
+	public void investimentoNaoPodeTerTipoEPrazoNulos() {
+		new Investimento(null, 0.11, null, 1000.0);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void investimentoNaoPodeTerValorETipoNulos() {
-		new Investimento(null, LocalDate.now(), 0.11, null);
+	public void investimentoNaoPodeTerTipoEValorNulos() {
+		new Investimento(null, 0.10, 24, null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void investimentoNaoPodeTerDataETaxaDeJurosNulos() {
-		new Investimento(1000.0, null, null, TipoDeInvestimento.CDB);
+	public void investimentoNaoPodeTerTaxaDeJurosEPrazoNulos() {
+		new Investimento(TipoDeInvestimento.CDB, null, null, 1000.0);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void investimentoNaoPodeTerDataETipoNulos() {
-		new Investimento(1000.0, null, 0.11, null);
+	public void investimentoNaoPodeTerTaxaDeJurosEValorNulos() {
+		new Investimento(TipoDeInvestimento.LCI, null, 24, null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void investimentoNaoPodeTerTaxaDeJurosETipoNulos() {
-		new Investimento(1000.0, LocalDate.now(), null, null);
+	public void investimentoNaoPodeTerPrazoEValorNulos() {
+		new Investimento(TipoDeInvestimento.LCI, 0.1,  null, null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void investimentoNaoPodeTerValorEDataETaxaDeJurosNulos() {
-		new Investimento(null, null, null, TipoDeInvestimento.CDB);
+	public void investimentoNaoPodeTerTipoEETaxaDeJurosEPrazoNulos() {
+		new Investimento(null, null, null, 1000.0);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void investimentoNaoPodeTerValorETaxaDeJurosETipoNulos() {
-		new Investimento(null, LocalDate.now(), null, null);
+	public void investimentoNaoPodeTerTipoEprazoEValorNulos() {
+		new Investimento(null, 0.11, null, null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void investimentoNaoPodeTerValorEDataETipoNulos() {
-		new Investimento(null, null, 0.11, null);
+	public void investimentoNaoPodeTerTipoETaxaDeJurosEValorNulos() {
+		new Investimento(null, null, 24, null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void investimentoNaoPodeTerDataETaxaDeJurosETipoNulos() {
-		new Investimento(1000.0, null, null, null);
+	public void investimentoNaoPodeTerTaxaDeJurosEPrazoEValorNulos() {
+		new Investimento(TipoDeInvestimento.CDB, null, null, null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void investimentoNaoPodeTerValorEDataETaxaDeJurosETipoNulos() {
+	public void investimentoNaoPodeTerArgumentosNulos() {
 		new Investimento(null, null, null, null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void investimentoNaoPodeTerValorNegativo() {
-		new Investimento(-10.0, LocalDate.now(), 0.11, TipoDeInvestimento.LCI);
+	public void investimentoNaoPodeTerValorMinimoNegativo() {
+		new Investimento(TipoDeInvestimento.LCI, 0.11, 24, -10.0);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void investimentoNaoPodeTerValorMenorDoQue1000() {
-		new Investimento(999.9, LocalDate.now(), 0.11, TipoDeInvestimento.LCI);
+	public void investimentoNaoPodeTerPrazoNegativo() {
+		new Investimento(TipoDeInvestimento.LCI, 0.11, -1, 1000.0);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void investimentoNaoPodeTerTaxaDeJurosNegativa() {
-		new Investimento(1000.0, LocalDate.now(), -0.11, TipoDeInvestimento.LCI);
+		new Investimento(TipoDeInvestimento.LCI, -0.11, 24, 1000.0);
 	}
 	
 	@Test
-	public void duracaoDeveSerDeUmMes() {
-		Investimento investimento = new Investimento(1000.0, LocalDate.now().minusMonths(1), 0.11, TipoDeInvestimento.CDB);
-		assertEquals(1L, investimento.getIntervalo(), 0.000001);
+	public void rentabilidadeMensalDeveSerDE() {
+		Investimento investimento = new Investimento(TipoDeInvestimento.CDB, 0.10, 24, 1000.0);
+		Assert.assertEquals(0.007974, investimento.getRentabilidadeMensal(), 0.000001);
 	}
-	
-	@Test
-	public void resgateDeveSerMilCentoEOitentaECinco() {
-		Investimento investimento = new Investimento(1000.0, LocalDate.now().minusYears(2), 0.11, TipoDeInvestimento.CDB);
-		Assert.assertEquals(1185.68, investimento.getTotalResgate(), 0.000001);
-	}
-	
-	public void resgateDeveSerZero() {
-		Investimento investimento = new Investimento(1000.0, LocalDate.now(), 0.11, TipoDeInvestimento.LCI);
-		Assert.assertEquals(0.0, investimento.getTotalResgate(), 0.000001);
-	}
-	
 }
