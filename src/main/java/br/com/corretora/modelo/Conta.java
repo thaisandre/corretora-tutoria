@@ -1,5 +1,6 @@
 package br.com.corretora.modelo;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -87,9 +88,9 @@ public class Conta {
 		}
 	}
 
-	public Aplicacao investe(Investimento investimento) {
-		saca(investimento.getValor());
-		Aplicacao aplicacao = new Aplicacao(this, investimento);
+	public Aplicacao investe(Investimento investimento, Double valor) {
+		saca(valor);
+		Aplicacao aplicacao = new Aplicacao(this, investimento, LocalDate.now(), valor);
 		return aplicacao;
 	}
 
