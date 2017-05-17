@@ -23,6 +23,18 @@ public class InvestimentoDao {
 		Query query = manager.createQuery("select i from investimento as i", Investimento.class);
 		List<Investimento> investimentos = query.getResultList();
 		return investimentos;
+	}
+
+	public void remove(Investimento investimento) {
+		manager.remove(buscaPor(investimento.getId()));
+	}
+
+	public Investimento buscaPor(Integer id) {
+		return manager.find(Investimento.class, id);
+	}
+
+	public void altera(Investimento investimento) {
+		manager.merge(investimento);
 		
 	}
 }

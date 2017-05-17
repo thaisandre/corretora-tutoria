@@ -7,17 +7,21 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.corretora.dao.UsuarioDao;
 import br.com.corretora.modelo.Usuario;
 
-public class AdicionaUsuarioLogica implements Logica {
+public class RemoveUsuario implements Logica{
 
 	@Override
 	public String executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Usuario usuario = new Usuario(request.getParameter("nome"), request.getParameter("login"),
-				request.getParameter("senha"));
+		Integer id = Integer.parseInt(request.getParameter("id"));
+		
+		Usuario usuario = new Usuario();
+		usuario.setId(id);
 		
 		EntityManager manager = (EntityManager) request.getAttribute("manager");
 		UsuarioDao usuarioDao = new UsuarioDao(manager);
-		usuarioDao.salva(usuario);
-
-		return "WEB-INF/paginas/usuario-cadastrado.jsp";
+		usuarioDao.remove(usuario);
+		
+		System.out.println("removendo usuario... ");
+		
+		return "mvc?logica=ListaUsuario";
 	}
 }

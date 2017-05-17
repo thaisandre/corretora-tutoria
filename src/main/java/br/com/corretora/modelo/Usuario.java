@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-
 @Entity(name = "usuario")
 public class Usuario {
 	
@@ -17,18 +16,13 @@ public class Usuario {
 	private String senha;
 	
 	public Usuario(String nome, String login, String senha) {
-		if (nome == null) {
-			throw new IllegalArgumentException("nome não pode ser nulo");
+		if(ValidaUsuario.valida(nome, login, senha)) {
+			this.nome = nome;
+			this.login = login;
+			this.senha = senha;
+		} else { 
+			System.out.println("erro ao construir usuário");
 		}
-		if(login == null) {
-			throw new IllegalArgumentException("login não pode ser nulo");
-		}
-		if(senha == null) {
-			throw new IllegalArgumentException("senha não pode ser nula");
-		}
-		this.nome = nome;
-		this.login = login;
-		this.senha = senha;
 	}
 
 	public Usuario() {}

@@ -14,11 +14,11 @@ import br.com.corretora.logica.Logica;
 public class ControllerServlet extends HttpServlet{
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("entrou na servlet");
+		System.out.println("entrou no service()");
 		
 		String action = request.getParameter("logica");
 		String className = "br.com.corretora.logica." + action;
-		System.out.println(action);
+		System.out.println("-> " + action);
 		
 		try{
 			Class<?> classe = Class.forName(className);
@@ -26,9 +26,20 @@ public class ControllerServlet extends HttpServlet{
 			String pagina = logica.executa(request, response);
 			
 			request.getRequestDispatcher(pagina).forward(request, response);
-		} catch (Exception e){
+			} catch (Exception e){
 			throw new ServletException("A logica de negócio causou uma exceção" + e);
 		}
 	}
-
+	
+	@Override
+	public void init() throws ServletException {
+		System.out.println("iniciou servlet");
+		super.init();
+	}
+	
+	@Override
+	public void destroy() {
+		System.out.println("destruiu a servlet");
+		super.destroy();
+	}
 }

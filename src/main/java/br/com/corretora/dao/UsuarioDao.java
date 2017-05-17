@@ -25,4 +25,17 @@ public class UsuarioDao {
 		List<Usuario> usuarios = query.getResultList();
 		return usuarios;
 	}
+
+	public void remove(Usuario usuario) {
+		manager.remove(buscaPor(usuario.getId()));
+	}
+
+	public Usuario buscaPor(Integer id) {
+		return manager.find(Usuario.class, id);
+	}
+
+	public void altera(Usuario usuario) {
+		manager.merge(usuario);
+		
+	}
 }

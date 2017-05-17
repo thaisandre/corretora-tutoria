@@ -8,17 +8,21 @@
 <title>Usuarios</title>
 </head>
 <body>
+	<c:import url="cabecalho.jsp" />
+	<p>Usuarios:</p>
 <table>
 	<tr>
-		<td>nome</td>
-		<td>login</td>
-		<td>senha</td>
+		<th>nome</th>
+		<th>login</th>
+		<th>senha</th>
 	</tr>
 	<c:forEach var="usuario" items="${usuarios}">
 		<tr>
 			<td>${usuario.nome}</td>
 			<td>${usuario.login}</td>
 			<td>${usuario.senha}</td>
+			<td><a href="mvc?logica=RemoveUsuario&id=${usuario.id}">Remover</a></td>
+			<td><a href="mvc?logica=MostraUsuario&id=${usuario.id}">Editar</a></td>
 		</tr>
 	</c:forEach>		
 	</table>

@@ -8,20 +8,28 @@ import br.com.corretora.dao.InvestimentoDao;
 import br.com.corretora.modelo.Investimento;
 import br.com.corretora.modelo.TipoDeInvestimento;
 
-public class AdicionaInvestimentoLogica implements Logica {
+public class AlteraInvestimento implements Logica {
+
+	@Override
 	public String executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		Integer id = Integer.parseInt(request.getParameter("id"));
 		TipoDeInvestimento tipo = TipoDeInvestimento.valueOf(request.getParameter("tipo"));
 		Double taxaDeJuros = Double.parseDouble(request.getParameter("taxaDeJuros"));
 		Integer prazo = Integer.parseInt(request.getParameter("prazo"));
 		Double valorMinimo = Double.parseDouble(request.getParameter("valorMinimo"));
 		
 		Investimento investimento = new Investimento(tipo, taxaDeJuros, prazo, valorMinimo);
+		investimento.setId(id);
 		
 		EntityManager manager = (EntityManager) request.getAttribute("manager");
 		InvestimentoDao investimentoDao = new InvestimentoDao(manager);
-		investimentoDao.salva(investimento);
-
-		return "/WEB-INF/paginas/investimento-cadastrado.jsp";
+		investimentoDao.altera(investimento);
+		
+		System.out.println("alterando investimento... ");
+		
+		return "mvc?logica=ListaInvestimento";
 	}
-
+	
+	
 }

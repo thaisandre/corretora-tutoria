@@ -1,7 +1,5 @@
 package br.com.corretora.logica;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,19 +7,21 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.corretora.dao.UsuarioDao;
 import br.com.corretora.modelo.Usuario;
 
-public class ListaUsuario implements Logica {
+public class MostraUsuario implements Logica {
 
 	@Override
 	public String executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Integer id = Integer.parseInt(request.getParameter("id"));
 		
 		EntityManager manager = (EntityManager) request.getAttribute("manager");
 		UsuarioDao usuarioDao = new UsuarioDao(manager);
-		List<Usuario> usuarios = usuarioDao.lista();
+		Usuario usuario = usuarioDao.buscaPor(id);
 		
-		request.setAttribute("usuarios", usuarios);
+		request.setAttribute("usuario", usuario);
 		
-		System.out.println("listando usuários... ");
+		System.out.println("mostrando dados do usuário para alteração...");
 		
-		return "/WEB-INF/paginas/lista-usuarios.jsp";
+		return "WEB-INF/paginas/altera-usuario.jsp";
 	}
+
 }

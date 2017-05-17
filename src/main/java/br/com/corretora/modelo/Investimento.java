@@ -13,38 +13,63 @@ public class Investimento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Enumerated(EnumType.STRING)
 	private TipoDeInvestimento tipo;
 
 	private Double taxaDeJuros;
 	private Integer prazo;
 	private Double valorMinimo;
+	//private transient ValidaInvestimento validador = new ValidaInvestimento();
 
 	public Investimento(TipoDeInvestimento tipo, Double taxaDeJuros, Integer prazo, Double valorMinimo) {
-		if (tipo == null)
-			throw new IllegalArgumentException("o tipo não pode ser nulo");
-		if (taxaDeJuros == null)
-			throw new IllegalArgumentException("a taxa de juros não pode ser nula");
-		if (taxaDeJuros < 0.0)
-			throw new IllegalArgumentException("a taxa de Juros deve ser positiva");
-		if (prazo == null)
-			throw new IllegalArgumentException("o prazo nao pode ser nulo");
-		if (prazo < 0)
-			throw new IllegalArgumentException("prazo não pode ser negativo");
-		if(valorMinimo == null) {
-			throw new IllegalArgumentException("valor mínimo não pode ser nulo");
-		}
-		if(valorMinimo < 0.0)
-			throw new IllegalArgumentException("valor mínimo não pode ser negativo");
+	//	validador.valida(tipo, taxaDeJuros, prazo, valorMinimo);
+		validaTipo(tipo);
+		validaTaxaDeJuros(taxaDeJuros);
+		validaPrazo(prazo);
+		validaValorMinimo(valorMinimo);
+		
 		this.tipo = tipo;
 		this.taxaDeJuros = taxaDeJuros;
 		this.prazo = prazo;
 		this.valorMinimo = valorMinimo;
 	}
 
-	public Investimento() {
+	private void validaValorMinimo(Double valorMinimo2) {
+		if(valorMinimo == null) {
+			throw new IllegalArgumentException("valo mínimo não pode ser nulo");
+		}
+		if(valorMinimo < 0) {
+			throw new IllegalArgumentException("balor mínimo não pode ser negativo");
+		}
 	}
+
+	private void validaPrazo(Integer prazoAValidar) {
+		if(prazoAValidar == null) {
+			throw new IllegalArgumentException("prazo não pode ser nulo");
+		}
+		if(prazoAValidar < 0) {
+			throw new IllegalArgumentException("prazo não pode ter valor negativo");
+		}
+	}
+
+	private void validaTaxaDeJuros(Double taxaDeJuros2) {
+		if(taxaDeJuros == null) {
+			throw new IllegalArgumentException("taxa não pode ser nula");
+		}
+		if(taxaDeJuros <= 0.0) {
+			throw new IllegalArgumentException("taxa deve possuir valor positivo");
+		}
+	}
+
+	private void validaTipo(TipoDeInvestimento tipoAValidar) {
+		if(tipoAValidar == null) {
+			throw new IllegalArgumentException("tipo não pode ser nulo");
+		}
+	}
+
+	public Investimento() {}
+
 
 	public TipoDeInvestimento getTipo() {
 		return tipo;
@@ -57,11 +82,11 @@ public class Investimento {
 	public Double getTaxaDeJuros() {
 		return taxaDeJuros;
 	}
-	
+
 	public Double getValorMinimo() {
 		return valorMinimo;
 	}
-	
+
 	public Integer getId() {
 		return this.id;
 	}

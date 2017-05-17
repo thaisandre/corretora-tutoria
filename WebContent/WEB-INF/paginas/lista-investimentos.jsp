@@ -8,12 +8,14 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<c:import url="cabecalho.jsp" />
+	<p>Investimentos:</p>
 <table>
 	<tr>
-		<td>tipo</td>
-		<td>taxa (a.a)</td>
-		<td>prazo (meses)</td>
-		<td>valor mínimo</td>
+		<th>tipo</th>
+		<th>taxa (a.a)</th>
+		<th>prazo (meses)</th>
+		<th>valor mínimo</th>
 	</tr>
 	<c:forEach var="investimento" items="${investimentos}">
 		<tr>
@@ -21,6 +23,8 @@
 			<td>${investimento.taxaDeJuros}</td>
 			<td>${investimento.prazo}</td>
 			<td>${investimento.valorMinimo}</td>
+			<td><a href="mvc?logica=RemoveInvestimento&id=${investimento.id}">Remover</a></td>
+			<td><a href="mvc?logica=MostraInvestimento&id=${investimento.id}">Editar</a></td>
 		</tr>
 	</c:forEach>		
 	</table>
