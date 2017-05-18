@@ -16,15 +16,19 @@ public class Usuario {
 	private String senha;
 	
 	public Usuario(String nome, String login, String senha) {
-		if(ValidaUsuario.valida(nome, login, senha)) {
+			valida(nome);
+			valida(login);
+			valida(senha);
 			this.nome = nome;
 			this.login = login;
 			this.senha = senha;
-		} else { 
-			System.out.println("erro ao construir usuário");
+	}
+	private void valida(String parametro) {
+		if(parametro == null || parametro.isEmpty()) {
+			throw new IllegalArgumentException("campo " + parametro + " deve ser preenchido");
 		}
 	}
-
+	
 	public Usuario() {}
 	
 	public Integer getId() {

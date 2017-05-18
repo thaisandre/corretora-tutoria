@@ -11,12 +11,12 @@
 		
 		<p>Cadastro Usuário:</p>
 		<br />
-		<span style="color:red" ><c:out value="${errorMessage}" /></span>
-		<br />
 		<form action="mvc?logica=AdicionaUsuario" method="post">
-			nome: <input type="text" name="nome" /><br /><br />
-			login: <input type="text" name="login" /><br /><br />
-			senha: <input type="text" name="senha" /><br />
+			nome: <input type="text" name="nome" /><span style="color:red" >${erros.get("nome")}</span>
+			<br />
+			login: <input type="text" name="login" /><span style="color:red" >${erros.get("login")}</span>
+			<br />
+			senha: <input type="text" name="senha" /><span style="color:red" >${erros.get("senha")}</span>
 			<br />
 			<input type="submit" value="cadastrar" />
 		</form>	
