@@ -12,22 +12,21 @@
 	
 	<p>Cadastro Investimento:</p>
 	<br />
-	
 	<form action="mvc?logica=AdicionaInvestimento" method="post">
 		tipo: <select name="tipo">
 			<option type="text" name="CDB" value="CDB">CDB</option>
 			<option type="text" name="LCI" value="LCI">LCI</option>
 			<option type="text" name="FDI" value="FDI">FDI</option>
-		</select><span style="cloro:red" >${erros.get("tipo")}</span>
+		</select><span style="color:red" >${erros.get("tipo")}</span>
 		<br />
 		
 		taxa: <input type="text" name="taxaDeJuros" /><span style="color:red" >${erros.get("taxaDeJuros")}</span>
 		<br />
 		
-		prazo: <input type="text" name="prazo" /><span style="cloro:red" >${erros.get("prazo")}</span>
+		prazo: <input type="text" name="prazo" /><span style="color:red" >${erros.get("prazo")}</span>
 		<br />
 		
-		valor mínimo: <input type="text" name="valorMinimo" /><span style="cloro:red" >${erros.get("valorMinimo")}</span>
+		valor mínimo: <input type="text" name="valorMinimo" /><span style="color:red" >${erros.get("valorMinimo")}</span>
 		<br />
 		
 		<input type="submit" value="cadastrar" />

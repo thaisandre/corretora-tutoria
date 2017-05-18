@@ -20,13 +20,13 @@ public class AdicionaInvestimento implements Logica {
 		}
 		validador.verificaNumero("prazo", "O prazo precisa ser um número");
 		if (!validador.temErros("prazo")) {
-			validador.verificaNumeroPositivo("prazo", "O prazo precisa ser positivo");
+			validador.verificaNumeroNaoNegativo("prazo", "O prazo precisa ser maio ou igual a zero");
 		}
 		validador.verificaNumero("valorMinimo", "O valor minimo precisa ser um número");
 		if (!validador.temErros("valorMinimo")) {
 			validador.verificaNumeroPositivo("valorMinimo", "O valor mínimo precisa ser positivo");
 		}
-
+		
 		if (validador.temErros()) {
 			request.setAttribute("erros", validador);
 			return "/cadastra-investimento.jsp";
@@ -38,11 +38,10 @@ public class AdicionaInvestimento implements Logica {
 		Double valorMinimo = Double.parseDouble(request.getParameter("valorMinimo"));
 		
 		Investimento investimento = new Investimento(tipo, taxaDeJuros, prazo, valorMinimo);
+		
 		EntityManager manager = (EntityManager) request.getAttribute("manager");
 		InvestimentoDao investimentoDao = new InvestimentoDao(manager);
 		investimentoDao.salva(investimento);
-		
-		//response.sendRedirect("/WEB-INF/investimento-cadastrado.jsp");
 
 		return "/WEB-INF/paginas/investimento-cadastrado.jsp";
 	}

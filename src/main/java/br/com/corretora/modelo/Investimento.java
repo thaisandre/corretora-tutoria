@@ -33,11 +33,11 @@ public class Investimento {
 		this.valorMinimo = valorMinimo;
 	}
 
-	private void validaValorMinimo(Double valorMinimo2) {
-		if(valorMinimo == null) {
+	private void validaValorMinimo(Double valorMinimoAValidar) {
+		if(valorMinimoAValidar == null) {
 			throw new IllegalArgumentException("valo mínimo não pode ser nulo");
 		}
-		if(valorMinimo < 0) {
+		if(valorMinimoAValidar <= 0) {
 			throw new IllegalArgumentException("balor mínimo não pode ser negativo");
 		}
 	}
@@ -51,11 +51,11 @@ public class Investimento {
 		}
 	}
 
-	private void validaTaxaDeJuros(Double taxaDeJuros2) {
-		if(taxaDeJuros == null) {
+	private void validaTaxaDeJuros(Double taxaDeJurosAValidar) {
+		if(taxaDeJurosAValidar == null) {
 			throw new IllegalArgumentException("taxa não pode ser nula");
 		}
-		if(taxaDeJuros <= 0.0) {
+		if(taxaDeJurosAValidar <= 0.0) {
 			throw new IllegalArgumentException("taxa deve possuir valor positivo");
 		}
 	}
