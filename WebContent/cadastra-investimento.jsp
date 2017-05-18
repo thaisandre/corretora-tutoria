@@ -19,6 +19,7 @@
 			<option type="text" name="LCI" value="LCI">LCI</option>
 			<option type="text" name="FDI" value="FDI">FDI</option>
 		</select><span style="cloro:red" >${erros.get("tipo")}</span>
+		<br />
 		
 		taxa: <input type="text" name="taxaDeJuros" /><span style="color:red" >${erros.get("taxaDeJuros")}</span>
 		<br />

@@ -20,10 +20,8 @@ public class Investimento {
 	private Double taxaDeJuros;
 	private Integer prazo;
 	private Double valorMinimo;
-	//private transient ValidaInvestimento validador = new ValidaInvestimento();
 
 	public Investimento(TipoDeInvestimento tipo, Double taxaDeJuros, Integer prazo, Double valorMinimo) {
-	//	validador.valida(tipo, taxaDeJuros, prazo, valorMinimo);
 		validaTipo(tipo);
 		validaTaxaDeJuros(taxaDeJuros);
 		validaPrazo(prazo);

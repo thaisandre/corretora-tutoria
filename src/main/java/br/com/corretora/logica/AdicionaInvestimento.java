@@ -1,77 +1,48 @@
 package br.com.corretora.logica;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.corretora.dao.InvestimentoDao;
-import br.com.corretora.modelo.ErroValidacao;
 import br.com.corretora.modelo.Investimento;
 import br.com.corretora.modelo.TipoDeInvestimento;
-import br.com.corretora.modelo.ValidaInvestimento;
-import br.com.corretora.modelo.ValidaTexto;
+import br.com.corretora.modelo.Validador;
 
 public class AdicionaInvestimento implements Logica {
 	public String executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		ValidaTexto validaTexto = new ValidaTexto();
-		Set<ErroValidacao> erros = new HashSet<>();
 
-		TipoDeInvestimento tipo = null;
-		Double taxaDeJuros = null;
-		Integer prazo = null;
-		Double valorMinimo = null;
-
-		for (String parametro : request.getParameterMap().keySet()) {
-			ErroValidacao erro = validaTexto.valida(request.getParameter(parametro), parametro);
-			System.out.println(parametro);
-			if (!(erro.getMensagem() == null))
-			//	System.out.println(erro.getMensagem());
-				erros.add(erro);
+		Validador validador = new Validador(request);
+		validador.verificaNulo("tipo", "Tipo é obrigatório");
+		validador.verificaNumero("taxaDeJuros", "A taxa precisa ser um número");
+		if(!validador.temErros("taxaDeJuros")) {
+			validador.verificaNumeroPositivo("taxaDeJuros", "A taxa precisa ser positiva");
+		}
+		validador.verificaNumero("prazo", "O prazo precisa ser um número");
+		if (!validador.temErros("prazo")) {
+			validador.verificaNumeroPositivo("prazo", "O prazo precisa ser positivo");
+		}
+		validador.verificaNumero("valorMinimo", "O valor minimo precisa ser um número");
+		if (!validador.temErros("valorMinimo")) {
+			validador.verificaNumeroPositivo("valorMinimo", "O valor mínimo precisa ser positivo");
 		}
 
-		try {
-			tipo = TipoDeInvestimento.valueOf(request.getParameter("tipo"));
-			taxaDeJuros = Double.parseDouble(request.getParameter("taxaDeJuros"));
-			prazo = Integer.parseInt(request.getParameter("prazo"));
-			valorMinimo = Double.parseDouble(request.getParameter("valorMinimo"));
-		} catch (NumberFormatException e) {
-			//System.out.println("erro de conversão");
-			//System.out.println(erros);
-			request.setAttribute("erros", erros);
-			return "cadastra-investimento.jsp";
+		if (validador.temErros()) {
+			request.setAttribute("erros", validador);
+			return "/cadastra-investimento.jsp";
 		}
 		
-		ValidaInvestimento valida = new ValidaInvestimento();
-
-		Set<ErroValidacao> erros1 = valida.valida(tipo, taxaDeJuros, prazo, valorMinimo);
-		for(ErroValidacao erro : erros1) {
-			if(!erros1.isEmpty()) erros.add(erro);
-		}
-		Investimento investimento = null;
+		TipoDeInvestimento tipo = TipoDeInvestimento.valueOf(request.getParameter("tipo"));
+		Double taxaDeJuros = Double.parseDouble(request.getParameter("taxaDeJuros"));
+		Integer prazo = Integer.parseInt(request.getParameter("prazo"));
+		Double valorMinimo = Double.parseDouble(request.getParameter("valorMinimo"));
 		
-		try {
-			investimento =  new Investimento(tipo, taxaDeJuros, prazo, valorMinimo);
-		} catch (IllegalArgumentException e) {
-			System.out.println("erro ao criar o investimento");
-			request.setAttribute("erros", valida.getErros());
-			return "cadastra-investimento.jsp";
-		}
-
-		if (erros.isEmpty()) {
-			EntityManager manager = (EntityManager) request.getAttribute("manager");
-			InvestimentoDao investimentoDao = new InvestimentoDao(manager);
-			investimentoDao.salva(investimento);
-		} else {
-			System.out.println(valida.getErros());
-			request.setAttribute("erros", valida.getErros());
-			return "cadastra-investimento.jsp";
-		}
-
-		System.out.println("cadastrando investimento... ");
+		Investimento investimento = new Investimento(tipo, taxaDeJuros, prazo, valorMinimo);
+		EntityManager manager = (EntityManager) request.getAttribute("manager");
+		InvestimentoDao investimentoDao = new InvestimentoDao(manager);
+		investimentoDao.salva(investimento);
+		
+		//response.sendRedirect("/WEB-INF/investimento-cadastrado.jsp");
 
 		return "/WEB-INF/paginas/investimento-cadastrado.jsp";
 	}
