@@ -15,7 +15,13 @@ public class Validador {
 	}
 
 	public void verificaNulo(String nomeParametro, String msg) {
-		if (request.getParameter(nomeParametro) == null) {
+		if (request.getParameter(nomeParametro) == null || request.getParameter(nomeParametro).isEmpty()) {
+			erros.put(nomeParametro, msg);
+		}
+	}
+	
+	public void verificaVazio(String nomeParametro, String msg) {
+		if(request.getParameter(nomeParametro).isEmpty()) {
 			erros.put(nomeParametro, msg);
 		}
 	}
@@ -30,7 +36,14 @@ public class Validador {
 
 	public void verificaNumeroPositivo(String nomeParametro, String msg) {
 		double numero = Double.parseDouble(request.getParameter(nomeParametro));
-		if(numero < 0){
+		if(numero <= 0){
+			erros.put(nomeParametro, msg);
+		}
+	}
+	
+	public void verificaNumeroNaoNegativo(String nomeParametro, String msg) {
+		double numero = Double.parseDouble(request.getParameter(nomeParametro));
+		if(numero < 0) {
 			erros.put(nomeParametro, msg);
 		}
 	}
