@@ -10,7 +10,7 @@ import br.com.corretora.modelo.Usuario;
 public class AlteraUsuario implements Logica {
 
 	@Override
-	public String executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		String nome = request.getParameter("nome");
@@ -26,7 +26,7 @@ public class AlteraUsuario implements Logica {
 		
 		System.out.println("alterando usuário... ");
 		
-		return "mvc?logica=ListaUsuario";
+		response.sendRedirect("mvc?logica=ListaUsuario");
 	}
 
 }

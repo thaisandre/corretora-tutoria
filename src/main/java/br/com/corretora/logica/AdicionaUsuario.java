@@ -11,17 +11,21 @@ import br.com.corretora.modelo.Validador;
 public class AdicionaUsuario implements Logica {
 
 	@Override
-	public String executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Validador validador = new Validador(request);
 		validador.verificaNulo("nome", "nome é obrigatório");
 		validador.verificaNulo("login", "login é obrigatório");
-		validador.verificaNulo("senha", "senha é obrigatório");
-
+		validador.verificaNulo("senha", "senha é obrigatória");
+		
+		System.out.println(validador.get("nome"));
+		System.out.println(validador.get("login"));
+		System.out.println(validador.get("senha"));
+		
 		if (validador.temErros()) {
 			request.setAttribute("erros", validador);
-			return "/cadastra-usuario.jsp";
+			request.getRequestDispatcher("/WEB-INF/paginas/cadastra-usuario.jsp").forward(request, response);
 		}
-
+		
 		Usuario usuario = new Usuario(request.getParameter("nome"), request.getParameter("login"),
 				request.getParameter("senha"));
 
@@ -30,6 +34,6 @@ public class AdicionaUsuario implements Logica {
 		usuarioDao.salva(usuario);
 
 		System.out.println("cadastrando usuário... ");
-		return "WEB-INF/paginas/usuario-cadastrado.jsp";
+		response.sendRedirect("/corretora-tutoria/mvc?logica=UsuarioCadastrado");
 	}
 }

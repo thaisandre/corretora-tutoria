@@ -8,7 +8,7 @@
 <title>cadastro investimento</title>
 </head>
 <body>
-	<c:import url="/WEB-INF/paginas/cabecalho.jsp" />
+	<c:import url="cabecalho.jsp" />
 	
 	<p>Cadastro Investimento:</p>
 	<br />

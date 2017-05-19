@@ -10,7 +10,7 @@ import br.com.corretora.modelo.Usuario;
 public class MostraUsuario implements Logica {
 
 	@Override
-	public String executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		
 		EntityManager manager = (EntityManager) request.getAttribute("manager");
@@ -21,7 +21,7 @@ public class MostraUsuario implements Logica {
 		
 		System.out.println("mostrando dados do usuário para alteração...");
 		
-		return "WEB-INF/paginas/altera-usuario.jsp";
+		response.sendRedirect("WEB-INF/paginas/altera-usuario.jsp");
 	}
 
 }

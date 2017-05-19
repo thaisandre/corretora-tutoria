@@ -3,8 +3,6 @@ package br.com.corretora.modelo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -82,7 +80,7 @@ public class ContaTest {
 
 		Conta conta = new Conta(new Usuario("joao", "joao@abc.com", "1234"), "1234-5", 10000.0);
 
-		Aplicacao aplicacao = conta.investe(mockedInvestimento, 1000.0);
+		conta.investe(mockedInvestimento, 1000.0);
 		Assert.assertEquals(9000.0, conta.getSaldo(), 0.000001);
 	}
 

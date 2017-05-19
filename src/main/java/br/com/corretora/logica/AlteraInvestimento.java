@@ -11,7 +11,7 @@ import br.com.corretora.modelo.TipoDeInvestimento;
 public class AlteraInvestimento implements Logica {
 
 	@Override
-	public String executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		TipoDeInvestimento tipo = TipoDeInvestimento.valueOf(request.getParameter("tipo"));
@@ -28,7 +28,7 @@ public class AlteraInvestimento implements Logica {
 		
 		System.out.println("alterando investimento... ");
 		
-		return "mvc?logica=ListaInvestimento";
+		response.sendRedirect("mvc?logica=ListaInvestimento");
 	}
 	
 	

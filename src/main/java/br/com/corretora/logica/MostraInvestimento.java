@@ -10,7 +10,7 @@ import br.com.corretora.modelo.Investimento;
 public class MostraInvestimento implements Logica {
 
 	@Override
-	public String executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		
@@ -22,7 +22,7 @@ public class MostraInvestimento implements Logica {
 		
 		System.out.println("mostando dados do investimento para alteração...");
 		
-		return "WEB-INF/paginas/altera-investimento.jsp";
+		response.sendRedirect("WEB-INF/paginas/altera-investimento.jsp");
 	}
 
 }

@@ -16,7 +16,7 @@
 			<br />
 			login: <input type="text" name="login" /><span style="color:red" >${erros.get("login")}</span>
 			<br />
-			senha: <input type="text" name="senha" /><span style="color:red" >${erros.get("senha")}</span>
+			senha: <input type="password" name="senha" /><span style="color:red" >${erros.get("senha")}</span>
 			<br />
 			<input type="submit" value="cadastrar" />
 		</form>	

@@ -12,7 +12,7 @@ import br.com.corretora.modelo.Usuario;
 public class ListaUsuario implements Logica {
 
 	@Override
-	public String executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		EntityManager manager = (EntityManager) request.getAttribute("manager");
 		UsuarioDao usuarioDao = new UsuarioDao(manager);
@@ -22,6 +22,6 @@ public class ListaUsuario implements Logica {
 		
 		System.out.println("listando usuários... ");
 		
-		return "/WEB-INF/paginas/lista-usuarios.jsp";
+		response.sendRedirect("/WEB-INF/paginas/lista-usuarios.jsp");
 	}
 }

@@ -19,12 +19,6 @@ public class Validador {
 			erros.put(nomeParametro, msg);
 		}
 	}
-	
-	public void verificaVazio(String nomeParametro, String msg) {
-		if(request.getParameter(nomeParametro).isEmpty()) {
-			erros.put(nomeParametro, msg);
-		}
-	}
 
 	public void verificaNumero(String nomeParametro, String msg) {
 		try {
@@ -35,6 +29,8 @@ public class Validador {
 	}
 
 	public void verificaNumeroPositivo(String nomeParametro, String msg) {
+		
+		
 		double numero = Double.parseDouble(request.getParameter(nomeParametro));
 		if(numero <= 0){
 			erros.put(nomeParametro, msg);
@@ -51,7 +47,6 @@ public class Validador {
 	public boolean temErros() {
 		return !erros.isEmpty();
 	}
-
 	
 	public String get(String chave){
 		return erros.get(chave);

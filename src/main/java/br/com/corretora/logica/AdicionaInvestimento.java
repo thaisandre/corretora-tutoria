@@ -10,9 +10,9 @@ import br.com.corretora.modelo.TipoDeInvestimento;
 import br.com.corretora.modelo.Validador;
 
 public class AdicionaInvestimento implements Logica {
-	public String executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+	public void executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Validador validador = new Validador(request);
+		
 		validador.verificaNulo("tipo", "Tipo é obrigatório");
 		validador.verificaNumero("taxaDeJuros", "A taxa precisa ser um número");
 		if(!validador.temErros("taxaDeJuros")) {
@@ -26,10 +26,10 @@ public class AdicionaInvestimento implements Logica {
 		if (!validador.temErros("valorMinimo")) {
 			validador.verificaNumeroPositivo("valorMinimo", "O valor mínimo precisa ser positivo");
 		}
-		
 		if (validador.temErros()) {
+			System.out.println("tem erros");
 			request.setAttribute("erros", validador);
-			return "/cadastra-investimento.jsp";
+			request.getRequestDispatcher("/WEB-INF/paginas/cadastra-investimento.jsp").forward(request, response);
 		}
 		
 		TipoDeInvestimento tipo = TipoDeInvestimento.valueOf(request.getParameter("tipo"));
@@ -42,7 +42,7 @@ public class AdicionaInvestimento implements Logica {
 		EntityManager manager = (EntityManager) request.getAttribute("manager");
 		InvestimentoDao investimentoDao = new InvestimentoDao(manager);
 		investimentoDao.salva(investimento);
-
-		return "/WEB-INF/paginas/investimento-cadastrado.jsp";
+	
+		response.sendRedirect("/corretora-tutoria/mvc?logica=InvestimentoCadastrado");
 	}
 }

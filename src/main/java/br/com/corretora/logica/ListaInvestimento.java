@@ -12,7 +12,7 @@ import br.com.corretora.modelo.Investimento;
 public class ListaInvestimento implements Logica {
 
 	@Override
-	public String executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		EntityManager manager = (EntityManager) request.getAttribute("manager");
 		InvestimentoDao investimentoDao = new InvestimentoDao(manager);
@@ -21,6 +21,6 @@ public class ListaInvestimento implements Logica {
 		request.setAttribute("investimentos", investimentos);
 		
 		System.out.println("listando investimentos... ");
-		return "WEB-INF/paginas/lista-investimentos.jsp";
+		request.getRequestDispatcher("WEB-INF/paginas/lista-investimentos.jsp").forward(request, response);
 	}
 }

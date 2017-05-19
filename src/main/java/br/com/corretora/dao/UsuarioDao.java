@@ -36,6 +36,11 @@ public class UsuarioDao {
 
 	public void altera(Usuario usuario) {
 		manager.merge(usuario);
-		
+	}
+	
+	public boolean existe(String nome, String senha) {
+		if(manager.find(Usuario.class, nome).equals(manager.find(Usuario.class, senha)))
+			return true;
+		return false;
 	}
 }
